@@ -5,22 +5,20 @@ from datetime import datetime
 pages = Blueprint("pages", __name__)
 
 @pages.route('/')
-@pages.route('/home')
-def home():
-    spacex_url = "https://api.spacexdata.com/v4/launches/upcoming"
-    response = requests.get(spacex_url)
-    launches = response.json()
-
-    launches.sort(key=lambda x: x['date_utc'])
+@pages.route('/dashboard')
+def dashboard():
+    rocketlaunch_url = "https://fdo.rocketlaunch.live/json/launches/next/5"
+    response = requests.get(rocketlaunch_url)
+    launches = response.json().get("result", [])
 
     launch_data = []
-    for launch in launches[:5]:
+    for launch in launches:
         launch_data.append({
             'name': launch['name'],
-            'date_utc': launch['date_utc'],
-            'id': launch['id'],
-            'details': launch.get('details', 'No details available.'),
-            'webcast': launch.get('links', {}).get('webcast', ''),
+            'datetime': launch['win_open'],
+            'location': launch['pad']['location']['name'],
+            'provider': launch['provider']['name'],
+            'details': launch.get('missions', [{}])[0].get('description', 'No mission description available.')
         })
 
     return render_template("dashboard.html", launches=launch_data)

@@ -5,6 +5,21 @@
 {% block style %}dashboard{% endblock %}
 
 {% block content %}
+  <h1>Upcoming Rocket Launches</h1>
+  <div id="launches">
+    {% for launch in launches %}
+      <div class="launch">
+        <h2 class="launch-title">{{ launch.name }}</h2>
+        <p><strong>Location:</strong> {{ launch.location }}</p>
+        <p><strong>Provider:</strong> {{ launch.provider }}</p>
+        <p class="launch-details">{{ launch.details }}</p>
+        <p>
+          Countdown: 
+          <span class="countdown" data-date="{{ launch.datetime }}"></span>
+        </p>
+      </div>
+    {% endfor %}
+  </div>
   <script type="text/javascript" src="{{ url_for('static', filename='dashboard.js') }}"></script>
 {% endblock %}
 
