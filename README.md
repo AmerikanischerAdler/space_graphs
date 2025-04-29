@@ -46,8 +46,8 @@ sudo apt install python3
 
 ```bash
 pip3 install virtualenv
-python3 -m venv env
-source env/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 ```
 
 4) Install Dependencies:
