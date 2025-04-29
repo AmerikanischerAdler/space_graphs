@@ -1,3 +1,4 @@
+// Countdown Init
 function startCountdown(dateStr, countdownEl) {
     const countDownDate = new Date(dateStr).getTime();
 
@@ -33,7 +34,24 @@ function startCountdown(dateStr, countdownEl) {
 
 document.querySelectorAll(".countdown").forEach(el => {
     const dateStr = el.getAttribute("data-date");
-    console.log("Launch Date String:", dateStr); // Add this
     startCountdown(dateStr, el);
+});
+
+// Map Init 
+document.querySelectorAll('.launch-map').forEach(mapEl => {
+    const lat = parseFloat(mapEl.getAttribute('data-lat'));
+    const lon = parseFloat(mapEl.getAttribute('data-lon'));
+
+    if (!isNaN(lat) && !isNaN(lon)) {
+        const map = L.map(mapEl).setView([lat, lon], 10); 
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([lat, lon]).addTo(map)
+            .bindPopup('<b>Launch Pad</b><br>Launch location here.')
+            .openPopup();
+    }
 });
 

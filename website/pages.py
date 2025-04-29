@@ -15,10 +15,13 @@ def dashboard():
     for launch in launches:
         launch_data.append({
             'name': launch['name'],
-            'datetime': launch['win_open'],
-            'location': launch['pad']['location']['name'],
+            'date_utc': launch.get('win_open', None),
             'provider': launch['provider']['name'],
-            'details': launch.get('missions', [{}])[0].get('description', 'No mission description available.')
+            'details': launch.get('launch_description', 'No details.'),
+            'webcast': f"https://rocketlaunch.live/launch/{launch.get('slug')}",
+            'pad_location': launch['pad']['location'] if launch.get('pad') else None,
+            'lat': launch['pad']['location'].get('latitude', None) if launch.get('pad') else None,
+            'lon': launch['pad']['location'].get('longitude', None) if launch.get('pad') else None
         })
 
     return render_template("dashboard.html", launches=launch_data)

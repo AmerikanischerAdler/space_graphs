@@ -10,13 +10,20 @@
     {% for launch in launches %}
       <div class="launch">
         <h2 class="launch-title">{{ launch.name }}</h2>
-        <p><strong>Location:</strong> {{ launch.location }}</p>
+        <p><strong>Location:</strong> {{ launch.pad_location.name if launch.pad_location else 'Unknown' }}</p>
         <p><strong>Provider:</strong> {{ launch.provider }}</p>
         <p class="launch-details">{{ launch.details }}</p>
+  
         <p>
           Countdown: 
-          <span class="countdown" data-date="{{ launch.datetime }}"></span>
+          <span class="countdown" data-date="{{ launch.date_utc }}"></span>
         </p>
+        
+        {% if launch.lat and launch.lon %}
+          <div id="map-container" class="launch-map" data-lat="{{ launch.lat }}" data-lon="{{ launch.lon }}"></div>
+        {% else %}
+          <p>Location info unavailable</p>
+        {% endif %}
       </div>
     {% endfor %}
   </div>
