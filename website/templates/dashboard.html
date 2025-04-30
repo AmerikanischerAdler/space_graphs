@@ -6,27 +6,51 @@
 
 {% block content %}
   <h1>Upcoming Rocket Launches</h1>
-  <div id="launches">
-    {% for launch in launches %}
-      <div class="launch">
-        <h2 class="launch-title">{{ launch.name }}</h2>
-        <p><strong>Location:</strong> {{ launch.pad_location.name if launch.pad_location else 'Unknown' }}</p>
-        <p><strong>Provider:</strong> {{ launch.provider }}</p>
-        <p class="launch-details">{{ launch.details }}</p>
-  
-        <p>
-          Countdown: 
-          <span class="countdown" data-date="{{ launch.date_utc }}"></span>
-        </p>
-        
-        {% if launch.lat and launch.lon %}
-          <div id="map-container" class="launch-map" data-lat="{{ launch.lat }}" data-lon="{{ launch.lon }}"></div>
-        {% else %}
-          <p>Location info unavailable</p>
-        {% endif %}
-      </div>
-    {% endfor %}
+  <div class="launch-container">
+    <div id="launches">
+      {% for launch in launches %}
+        <div class="launch">
+          <div class="card">
+            <div class="card-front">
+              <h2 class="launch-title">{{ launch.name }}</h2>
+              <p><strong>Location:</strong> {{ launch.location }}</p>
+              <p><strong>Provider:</strong> {{ launch.provider }}</p>
+              <p class="launch-details">{{ launch.details }}</p>
+    
+              <p>
+                Countdown: 
+                <span class="countdown" data-date="{{ launch.date_utc }}"></span>
+              </p>
+            </div>
+         
+            <div class="card-back">
+              <h3>Location</h3>
+              {% if launch.lat and launch.lon %}
+                <div id="map-container" class="launch-map" data-lat="{{ launch.lat }}" data-lon="{{ launch.lon }}"></div>
+              {% else %}
+                <p>Location info unavailable</p>
+              {% endif %}
+
+              <h3>Weather</h3>
+              {% if launch.weather %}
+                <div class="launch-weather">
+                  <img src="https://openweathermap.org/img/wn/{{ launch.weather.icon }}@2x.png" alt="Weather icon">
+                  <div class="weather-info">
+                    <p><strong>Forecast:</strong> {{ launch.weather.description }}</p>
+                    <p><strong>Temperature:</strong> {{ launch.weather.temp }}°C</p>
+                    <p><strong>Wind:</strong> {{ launch.weather.wind }} m/s</p>
+                  </div>
+                </div>
+              {% else %}
+                <p>Weather data unavailable</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='dashboard.js') }}"></script>
 {% endblock %}
 

@@ -62,6 +62,28 @@ pip install -r requirements.txt
 deactivate
 ```
 
+6) Set up API Keys
+
+Create accounts with the following sites:
+
+* OpenCage: [ https://opencagedata.com/ ]
+
+* OpenWeatherMap: [ https://openweathermap.org/api ]
+
+Add the API keys into your .bashrc file:
+
+* OpenCage:
+
+```bash
+export OPENCAGE_API_KEY="my_api_key"
+```
+
+* OpenWeatherMap:
+
+```bash
+export WEATHER_MAP_API_KEY="my_api_key"
+```
+
 ## Usage
 
 1) Open Terminal
