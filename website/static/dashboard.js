@@ -63,75 +63,50 @@ document.addEventListener("DOMContentLoaded", () => {
     const rotationStep = 360 / total;
     const radius = 400;
 
+    let currentRotation = 0;
+    let isAnimating = false;
+
     launches.forEach((launch, index) => {
         const angle = index * rotationStep;
-        launch.dataset.angle = angle;
         launch.style.transform = `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`;
     });
 
-    let currentRotation = 0;
-    let velocity = 0;
-    let isScrolling = false;
-    let scrollEndTimeout;
-    let animationFrame;
-
-    function updateVisibility() {
-        launches.forEach((launch) => {
-            const angle = (parseFloat(launch.dataset.angle) - currentRotation) % 360;
-            const visibleAngle = (angle + 360) % 360;
-
-            const isVisible = visibleAngle < 90 || visibleAngle > 270;
-
+    function updateVisibility(rotation) {
+        launches.forEach((launch, index) => {
+            const angle = index * rotationStep - rotation;
+            const normalized = ((angle % 360) + 360) % 360;
+            const isVisible = normalized < 90 || normalized > 270;
+    
             launch.style.opacity = isVisible ? '1' : '0';
             launch.style.pointerEvents = isVisible ? 'auto' : 'none';
         });
     }
+    
+    function rotateCarousel(direction) {
+        if (isAnimating) return;
+        isAnimating = true;
 
-    function animate() {
-        if (Math.abs(velocity) < 0.001) {
-            velocity = 0;
-            snapToNearestCard();
-            return;
-        }
+        currentRotation += direction * rotationStep;
 
-        currentRotation += velocity;
-        velocity *= 0.9; 
-
-        container.style.transform = `rotateY(-${currentRotation}deg)`;
-        updateVisibility();
-
-        animationFrame = requestAnimationFrame(animate);
-    }
-
-    function snapToNearestCard() {
-        const normalizedRotation = ((currentRotation % 360) + 360) % 360;
-        const index = Math.round(normalizedRotation / rotationStep) % total;
-        currentRotation = index * rotationStep;
-
-        container.style.transition = 'transform 0.3s ease';
+        container.style.transition = 'transform 0.5s ease';
         container.style.transform = `rotateY(-${currentRotation}deg)`;
 
-        updateVisibility();
+        updateVisibility(currentRotation);
 
         setTimeout(() => {
             container.style.transition = '';
-        }, 300);
+            isAnimating = false;
+        }, 500);
     }
 
-    document.addEventListener('wheel', (e) => {
-        velocity += e.deltaY * 0.1;
+    document.querySelector('#rotate-left').addEventListener('click', () => {
+        rotateCarousel(-1);
+    });
 
-        if (!isScrolling) {
-            isScrolling = true;
-            animate();
-        }
+    document.querySelector('#rotate-right').addEventListener('click', () => {
+        rotateCarousel(1);
+    });
 
-        clearTimeout(scrollEndTimeout);
-        scrollEndTimeout = setTimeout(() => {
-            isScrolling = false;
-        }, 100);
-    }, { passive: true });
-
-    updateVisibility();
+    updateVisibility(currentRotation);
 });
 

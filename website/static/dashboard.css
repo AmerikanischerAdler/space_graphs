@@ -21,6 +21,7 @@ h3 {
     width: 100vw;
     overflow: visible;
     perspective: 2000px;
+    perspective-origin: center;
 }
 
 .launch {
@@ -84,6 +85,21 @@ h3 {
     }
 }
 
+/* Controls */ 
+
+#controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+#controls button {
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
 /* Launch Info Panel */
 
 #launches {
@@ -94,6 +110,7 @@ h3 {
     align-items: center;
     justify-content: center;
     transition: transform 0.6s ease;
+    transform: rotateY(0deg);
     transform-style: preserve-3d;
     will-change: transform;
 }
