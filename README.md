@@ -12,7 +12,11 @@ An intuitive interface to track satellite data
 
 ### APIs Used
 
-*apis listed here*
+* [RocketLaunch.Live](https://www.rocketlaunch.live)
+
+* [OpenCage](https://opencagedata.com/)
+
+* [OpenWeatherMap](https://openweathermap.org/api)
 
 ## Installation
 
