@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const rotationStep = 360 / total;
     const radius = 400;
 
-    let currentRotation = 0;
+    let currentRotation = 3600;
     let isAnimating = false;
 
     launches.forEach((launch, index) => {
