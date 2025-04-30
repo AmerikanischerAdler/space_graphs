@@ -1,20 +1,101 @@
+/* General Elements */
+h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin-top: 10px;
+}
+
+/* Carousel */ 
+
+.launch-container {
+    position: relative;
+    height: 700px;
+    width: 100vw;
+    overflow: visible;
+    perspective: 2000px;
+}
+
+.launch {
+    position: absolute;
+    height: 500px;
+    width: 450px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex: 0 0 25%;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+}
+
+.card {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    backface-visibility: hidden;
+    transition: transform 0.8s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card:hover {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    background: #1e1e2f;
+    border-radius: 15px;
+    backface-visibility: hidden;
+}
+
+.card-front {
+    z-index: 2;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background: #2b2b3c;
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(-360deg);
+    }
+}
+
 /* Launch Info Panel */
 
 #launches {
+    position: relative;
+    height: 100%;
     width: 100%;
-    max-width: 600px;
     display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    padding: 1.5rem;
-    background-color: var(--panel-bg-clr);
-    box-shadow: 0 0 12px rgba(4, 217, 255, 0.2);
-    border-radius: 12px;
-    transition: transform 0.3s ease;
-}
-
-#launches:hover {
-    transform: translateY(-4px);
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
 }
 
 .countdown {
@@ -27,6 +108,12 @@
     font-size: 1.4rem;
     font-weight: 700;
     color: var(--accent-clr);
+}
+
+.launch-details {
+    flex-grow: 1;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
 }
 
 .btn {
@@ -61,5 +148,26 @@
     width: 100%;
     border-radius: 8px; 
     margin-top: 10px;
+}
+
+/* Weather */
+
+.launch-weather {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    border: 2px solid var(--sec-clr);
+    border-radius: 8px;
+}
+
+.weather-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
 }
 
